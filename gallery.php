@@ -3,7 +3,8 @@
 define('IMAGES_PER_PAGE', 40);
 define('THUMBS', 3);
 
-function pager($pages, $page) {
+function pager($pages, $page) 
+{
     echo "<div style='text-align: center;'>";   
     if ($page == 1) {
         echo "<< ";
@@ -25,8 +26,9 @@ function pager($pages, $page) {
     echo "</div>";  
 }
 
-if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false || 
-    isset($_GET['scaled']) && strpos($_GET['scaled'], '..') === false) {
+if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false 
+    || isset($_GET['scaled']) && strpos($_GET['scaled'], '..') === false
+) {
     if (isset($_GET['thumb'])) {
         $file = $_GET['thumb'];
         $target = '.thumbs/thumb_' . $file;
@@ -41,18 +43,20 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
     header("Content-Type: image/jpeg"); 
     if (file_exists($target) && filemtime($target) > filemtime($file)) {
         $stat = @stat($target);
-        if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']) {
-                header('Last-Modified: ' . date('r', $stat['mtime']));
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
+            && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
+        ) {
+            header('Last-Modified: ' . date('r', $stat['mtime']));
             header('HTTP/1.0 304 Not Modified');
-            } else {
-        header('Last-Modified: ' . date('r', $stat['mtime']));
-        header('Content-Length:' . $stat['size']);
-        readfile($target);
+        } else {
+            header('Last-Modified: ' . date('r', $stat['mtime']));
+            header('Content-Length:' . $stat['size']);
+            readfile($target);
         }
     } else {
         $img = new Imagick();
         $img->readImage($file);
-        $img->resizeImage($width, $height, Imagick::FILTER_BOX, 1, TRUE);
+        $img->resizeImage($width, $height, Imagick::FILTER_BOX, 1, true);
         $img->writeImage($target);
         echo $img;
     }
@@ -65,25 +69,25 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
     </head>
     <body>
     <?php
-        $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
-        $nextlink = "?";
-        for ($i = 0; $i < sizeof($files); $i++) {
-            if ($files[$i] == $_GET['show']) {
-                if ($i + 1 < sizeof($files)) {
-                    $nextlink = '?show='.$files[$i + 1];
-                    for ($j = $i + 1; $j <= $i + THUMBS && $j < sizeof($files); $j++) {
-                        $nextpics []= $files[$j];
-                    }
+    $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
+    $nextlink = "?";
+    for ($i = 0; $i < sizeof($files); $i++) {
+        if ($files[$i] == $_GET['show']) {
+            if ($i + 1 < sizeof($files)) {
+                $nextlink = '?show='.$files[$i + 1];
+                for ($j = $i + 1; $j <= $i + THUMBS && $j < sizeof($files); $j++) {
+                    $nextpics []= $files[$j];
                 }
-                if ($i != 0) {
-                    for ($j = $i - 1; $j >= $i - THUMBS && $j >= 0; $j--) {
-                        $prevpics []= $files[$j];
-                    }
-                }
-                $prevpics = array_reverse($prevpics);   
-                break;
             }
+            if ($i != 0) {
+                for ($j = $i - 1; $j >= $i - THUMBS && $j >= 0; $j--) {
+                    $prevpics []= $files[$j];
+                }
+            }
+            $prevpics = array_reverse($prevpics);   
+            break;
         }
+    }
 
     $prevpic = $prevpics[count($prevpics) - 1];
     $nextpic = $nextpics[0];
@@ -105,22 +109,22 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
         });
     </script>";
 
-        $exif = exif_read_data($_GET['show']);
-        echo "<p style='text-align:center'>";
-        foreach ($prevpics as $pic) {
-            echo "<a href='?show=$pic'><img src='?thumb=$pic' style='margin-left: 5px; margin-right: 5px;'></a>";
-        }
-        echo "<a href='?'>up</a>";
-        foreach ($nextpics as $pic) {
-            echo "<a href='?show=$pic'><img src='?thumb=$pic' style='margin-left: 5px; margin-right: 5px;'></a>";
-        }
-        echo "</p>";
-        echo "<p style='text-align:center'>";
-        echo "<a href='$nextlink'><img src='?scaled=".$_GET['show']."' style='max-width:800px; max-height:600px;'></a><br>";
-        echo $exif['DateTime'];
-        echo "<br/>";
-        echo "<a href='".$_GET['show']."'>show original</a>";
-        echo "</p>";
+    $exif = exif_read_data($_GET['show']);
+    echo "<p style='text-align:center'>";
+    foreach ($prevpics as $pic) {
+        echo "<a href='?show=$pic'><img src='?thumb=$pic' style='margin-left: 5px; margin-right: 5px;'></a>";
+    }
+    echo "<a href='?'>up</a>";
+    foreach ($nextpics as $pic) {
+        echo "<a href='?show=$pic'><img src='?thumb=$pic' style='margin-left: 5px; margin-right: 5px;'></a>";
+    }
+    echo "</p>";
+    echo "<p style='text-align:center'>";
+    echo "<a href='$nextlink'><img src='?scaled=".$_GET['show']."' style='max-width:800px; max-height:600px;'></a><br>";
+    echo $exif['DateTime'];
+    echo "<br/>";
+    echo "<a href='".$_GET['show']."'>show original</a>";
+    echo "</p>";
     ?>
     </body>
     </html>
@@ -171,6 +175,5 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
     </html>
     <?php
 }
-
 
 ?>
