@@ -135,7 +135,6 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
 	<body>
 	<?php
 	$files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
-	#usort($files, create_function('$a,$b', 'return filemtime($a) - filemtime($b);'));
 
 	$pages = array_chunk($files, IMAGES_PER_PAGE);
 
