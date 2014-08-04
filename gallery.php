@@ -1,6 +1,7 @@
 <?php
 
 define('IMAGES_PER_PAGE', 40);
+define('THUMBS', 3);
 
 function pager($pages, $page) {
 	echo "<div style='text-align: center;'>";	
@@ -64,19 +65,18 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false ||
 	</head>
 	<body>
 	<?php
-		$showthumbs = 3;
 		$files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
 		$nextlink = "?";
 		for ($i = 0; $i < sizeof($files); $i++) {
 			if ($files[$i] == $_GET['show']) {
-				if ($i+1 < sizeof($files)) {
+				if ($i + 1 < sizeof($files)) {
 					$nextlink = '?show='.$files[$i + 1];
-					for ($j = $i+1; $j < $i+$showthumbs && $j < sizeof($files); $j++) {
+					for ($j = $i + 1; $j <= $i + THUMBS && $j < sizeof($files); $j++) {
 						$nextpics []= $files[$j];
 					}
 				}
 				if ($i != 0) {
-					for ($j = $i-1; $j > $i-$showthumbs && $j >= 0; $j--) {
+					for ($j = $i - 1; $j >= $i - THUMBS && $j >= 0; $j--) {
 						$prevpics []= $files[$j];
 					}
 				}
