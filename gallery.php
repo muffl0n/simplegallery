@@ -41,20 +41,18 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
         $height = 768;
     }
     header("Content-Type: image/jpeg"); 
-    if (file_exists($target) && filemtime($target) > filemtime($file)) {
-        $stat = stat($target);
-        if ($stat !== false) {
-            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
-                && $stat !== false
-                && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
-            ) {
-                header('Last-Modified: ' . date('r', $stat['mtime']));
-                header('HTTP/1.0 304 Not Modified');
-            } else {
-                header('Last-Modified: ' . date('r', $stat['mtime']));
-                header('Content-Length:' . $stat['size']);
-                readfile($target);
-            }
+    if (file_exists($target) 
+        && ($stat = stat($target)) !== false
+        && $stat['mtime'] > filemtime($file)) {
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
+            && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
+        ) {
+            header('Last-Modified: ' . date('r', $stat['mtime']));
+            header('HTTP/1.0 304 Not Modified');
+        } else {
+            header('Last-Modified: ' . date('r', $stat['mtime']));
+            header('Content-Length:' . $stat['size']);
+            readfile($target);
         }
     } else {
         $img = new Imagick();
@@ -163,7 +161,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
         });
     </script>";
 
-    foreach ($pages[$page-1] as $file) {
+    foreach ($pages[$page - 1] as $file) {
         $rel = "";
         if (file_exists($file.".tags")) {
             $rel = file_get_contents($file.".tags");
