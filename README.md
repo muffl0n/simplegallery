@@ -9,7 +9,8 @@ Getting started
 * create directory ".thumbs" and grant your webserver write privileges
 
 Example:
-```cd /var/www/example.com/pics
+```
+cd /var/www/example.com/pics
 ln -s ~/git/simplegallery/gallery.php index.php
 mkdir .thumbs
 chgrp www-data .thumbs
