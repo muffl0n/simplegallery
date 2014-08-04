@@ -3,6 +3,12 @@
 define('IMAGES_PER_PAGE', 40);
 define('THUMBS', 3);
 
+define('THUMB_MAX_WIDTH', 160);
+define('THUMB_MAX_HEIGHT', 160);
+
+define('IMAGE_MAX_WIDTH', 1024);
+define('IMAGE_MAX_HEIGHT', 768);
+
 function pager($pages, $page) 
 {
     echo "<div style='text-align: center;'>";   
@@ -32,13 +38,13 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     if (isset($_GET['thumb'])) {
         $file = $_GET['thumb'];
         $target = '.thumbs/thumb_' . $file;
-        $width = 160;
-        $height = 160;
+        $width = THUMB_MAX_WIDTH;
+        $height = THUMB_MAX_HEIGHT;
     } else {
         $file = $_GET['scaled'];
         $target = '.thumbs/scaled_' . $file;
-        $width = 1024;
-        $height = 768;
+        $width = IMAGE_MAX_WIDTH;
+        $height = IMAGE_MAX_HEIGHT;
     }
     header("Content-Type: image/jpeg"); 
     if (file_exists($target) 
