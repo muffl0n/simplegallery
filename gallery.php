@@ -74,11 +74,11 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     <?php
     $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
     $nextlink = "?";
-    for ($i = 0; $i < sizeof($files); $i++) {
+    for ($i = 0; $i < count($files); $i++) {
         if ($files[$i] == $_GET['show']) {
-            if ($i + 1 < sizeof($files)) {
+            if ($i + 1 < count($files)) {
                 $nextlink = '?show='.$files[$i + 1];
-                for ($j = $i + 1; $j <= $i + THUMBS && $j < sizeof($files); $j++) {
+                for ($j = $i + 1; $j <= $i + THUMBS && $j < count($files); $j++) {
                     $nextpics []= $files[$j];
                 }
             }
