@@ -10,8 +10,11 @@ Getting started
 
 Example:
 ```
-cd /var/www/example.com/pics
+cd /var/www/example.com/www/pics
 ln -s ~/git/simplegallery/gallery.php index.php
 mkdir .thumbs
 chgrp www-data .thumbs
-chmod g+rwx .thumbs```
+chmod g+rwx .thumbs
+```
+
+Not simply access your site (e.g. www.example.com/pics). The thumbnails will be generated on your first visit. They will also be regenerated if the source files change.
