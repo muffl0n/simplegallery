@@ -42,16 +42,19 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     }
     header("Content-Type: image/jpeg"); 
     if (file_exists($target) && filemtime($target) > filemtime($file)) {
-        $stat = @stat($target);
-        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
-            && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
-        ) {
-            header('Last-Modified: ' . date('r', $stat['mtime']));
-            header('HTTP/1.0 304 Not Modified');
-        } else {
-            header('Last-Modified: ' . date('r', $stat['mtime']));
-            header('Content-Length:' . $stat['size']);
-            readfile($target);
+        $stat = stat($target);
+        if ($stat !== false) {
+            if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
+                && $stat !== false
+                && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
+            ) {
+                header('Last-Modified: ' . date('r', $stat['mtime']));
+                header('HTTP/1.0 304 Not Modified');
+            } else {
+                header('Last-Modified: ' . date('r', $stat['mtime']));
+                header('Content-Length:' . $stat['size']);
+                readfile($target);
+            }
         }
     } else {
         $img = new Imagick();
