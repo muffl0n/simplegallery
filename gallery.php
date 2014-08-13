@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Simple gallery for PHP.
+ *
+ * @author   Sven Schliesing <sven@schliesing.de>
+ * @link     https://github.com/muffl0n/simplegallery
+ */
+
 define('IMAGES_PER_PAGE', 40);
 define('THUMBS', 3);
 
@@ -9,7 +16,7 @@ define('THUMB_MAX_HEIGHT', 160);
 define('IMAGE_MAX_WIDTH', 1024);
 define('IMAGE_MAX_HEIGHT', 768);
 
-function pager($pages, $page) 
+function pager($pages, $page)
 {
     echo "<div style='text-align: center;'>";   
     if ($page == 1) {
@@ -17,14 +24,15 @@ function pager($pages, $page)
     } else {
         echo "<a href='?page=" . ($page - 1) . "'><<</a> ";
     }
-    for ($i = 1; $i <= count($pages); $i++) {
+    $pageCount = count($pages);
+    for ($i = 1; $i <= $pageCount; $i++) {
         if ($i == $page) {
             echo "$i ";
         } else {
             echo "<a href='?page=$i'>$i</a> ";
         }
     }
-    if ($page == count($pages)) {
+    if ($page == $pageCount) {
         echo ">> ";
     } else {
         echo "<a href='?page=" . ($page + 1) . "'>>></a> ";
@@ -32,8 +40,8 @@ function pager($pages, $page)
     echo "</div>";  
 }
 
-if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false 
-    || isset($_GET['scaled']) && strpos($_GET['scaled'], '..') === false
+if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
+    || isset($_GET['scaled']) && strpos($_GET['scaled'], '..') === FALSE
 ) {
     if (isset($_GET['thumb'])) {
         $file = $_GET['thumb'];
@@ -49,7 +57,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     }
     header("Content-Type: image/jpeg"); 
     if (file_exists($target) 
-        && ($stat = stat($target)) !== false
+        && ($stat = stat($target)) !== FALSE
         && $stat['mtime'] > filemtime($file)) {
         if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) 
             && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $stat['mtime']
@@ -64,11 +72,11 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     } else {
         $img = new Imagick();
         $img->readImage($file);
-        $img->resizeImage($width, $height, Imagick::FILTER_BOX, 1, true);
+        $img->resizeImage($width, $height, Imagick::FILTER_BOX, 1, TRUE);
         $img->writeImage($target);
         echo $img;
     }
-} else if (isset($_GET['show']) && strpos($_GET['show'], '..') === false) {
+} else if (isset($_GET['show']) && strpos($_GET['show'], '..') === FALSE) {
     ?>
     <html>
     <head>
@@ -79,11 +87,12 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
     <?php
     $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
     $nextlink = "?";
-    for ($i = 0; $i < count($files); $i++) {
+    $fileCount = count($files);
+    for ($i = 0; $i < $fileCount; $i++) {
         if ($files[$i] == $_GET['show']) {
-            if ($i + 1 < count($files)) {
+            if ($i + 1 < $fileCount) {
                 $nextlink = '?show='.$files[$i + 1];
-                for ($j = $i + 1; $j <= $i + THUMBS && $j < count($files); $j++) {
+                for ($j = $i + 1; $j <= $i + THUMBS && $j < $fileCount; $j++) {
                     $nextpics []= $files[$j];
                 }
             }

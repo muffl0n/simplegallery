@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard">
+
+ <!--rule ref="PEAR">
+ </rule-->
+
+
+ <rule ref="Generic">
+  <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine"/>
+  <exclude name="Generic.PHP.LowerCaseConstant.Found"/>
+  <exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
+  <!--exclude name="Generic.Files.LineLength.TooLong"/>
+  <exclude name="Generic.Formatting.MultipleStatementAlignment"/-->
+ </rule>
+
+  <rule ref="Generic.Files.LineLength">
+
+    <properties>
+     <property name="lineLimit" value="120"/>
+     <property name="absoluteLineLimit" value="150"/>
+    </properties>
+  </rule>
+
+<!--rule ref="Squiz">
+  <exclude name="Squiz.Commenting.FileComment.Missing"/>
+  <exclude name="Squiz.Commenting.BlockComment.NoCapital"/>
+  <exclude name="Squiz.Commenting.InlineComment.NotCapital"/>
+  <exclude name="Squiz.Commenting.InlineComment.InvalidEndChar"/>
+
+  <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned"/>
+
+  <exclude name="Squiz.Operators.ComparisonOperatorUsage.ImplicitTrue"/>
+  <exclude name="Squiz.Operators.ComparisonOperatorUsage.NotAllowed"/>
+
+</rule-->
+
+
+
+</ruleset>
