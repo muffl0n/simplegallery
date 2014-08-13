@@ -18,3 +18,13 @@ chmod g+rwx .thumbs
 ```
 
 Not simply access your site (e.g. www.example.com/pics). The thumbnails will be generated on your first visit. They will also be regenerated if the source files change.
+
+PHP_CodeSniffer
+=======
+Run with: 
+```
+phpcs -s --standard=phpcs_ruleset.xml gallery.php
+```
+
+See: http://pear.php.net/manual/de/package.php.php-codesniffer.php
+
