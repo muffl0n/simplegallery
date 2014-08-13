@@ -45,6 +45,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === false
         $target = '.thumbs/scaled_' . $file;
         $width = IMAGE_MAX_WIDTH;
         $height = IMAGE_MAX_HEIGHT;
+	header('Content-Disposition: inline; filename = "scaled_' . $file . '"');
     }
     header("Content-Type: image/jpeg"); 
     if (file_exists($target) 
