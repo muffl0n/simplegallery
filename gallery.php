@@ -103,8 +103,19 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     <head>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <style type="text/css">
+        #cursor_hint {
+            text-align: center;
+            background: lightgreen;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2px;
+        }
+    </style>
     </head>
     <body>
+    <div id="cursor_hint">Use cursors to navigate!</div>
     <?php
     $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
     $nextlink = "?";
@@ -173,8 +184,19 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     <head>
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+    <style type="text/css">
+        #cursor_hint {
+            text-align: center;
+            background: lightgreen;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2px;
+        }
+    </style>
     </head>
     <body>
+    <div id="cursor_hint">Use cursors to navigate!</div>
     <?php
     $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
 
