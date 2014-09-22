@@ -16,6 +16,26 @@ define('THUMB_MAX_HEIGHT', 160);
 define('IMAGE_MAX_WIDTH', 1024);
 define('IMAGE_MAX_HEIGHT', 768);
 
+function autoRotateImage($image)
+{
+    $orientation = $image->getImageOrientation(); 
+
+    switch($orientation) { 
+        case imagick::ORIENTATION_BOTTOMRIGHT: 
+            $image->rotateimage("#000", 180);
+        break; 
+
+        case imagick::ORIENTATION_RIGHTTOP: 
+            $image->rotateimage("#000", 90); 
+        break; 
+
+        case imagick::ORIENTATION_LEFTBOTTOM: 
+            $image->rotateimage("#000", -90);
+        break; 
+    } 
+    $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT); 
+} 
+
 function pager($pages, $page)
 {
     echo "<div style='text-align: center;'>";   
@@ -73,6 +93,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
         $img = new Imagick();
         $img->readImage($file);
         $img->resizeImage($width, $height, Imagick::FILTER_BOX, 1, TRUE);
+        autoRotateImage($img);
         $img->writeImage($target);
         echo $img;
     }
