@@ -22,15 +22,15 @@ function autoRotateImage($image)
 
     switch($orientation) { 
         case imagick::ORIENTATION_BOTTOMRIGHT: 
-            $image->rotateimage("#000", 180);
+            $image->rotateimage('#000', 180);
         break; 
 
         case imagick::ORIENTATION_RIGHTTOP: 
-            $image->rotateimage("#000", 90); 
+            $image->rotateimage('#000', 90); 
         break; 
 
         case imagick::ORIENTATION_LEFTBOTTOM: 
-            $image->rotateimage("#000", -90);
+            $image->rotateimage('#000', -90);
         break; 
     } 
     $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT); 
@@ -38,11 +38,11 @@ function autoRotateImage($image)
 
 function pager($pages, $page)
 {
-    echo "<div style='text-align: center;'>";   
+    echo '<div style="text-align: center;">';
     if ($page == 1) {
-        echo "<< ";
+        echo '<< ';
     } else {
-        echo "<a href='?page=" . ($page - 1) . "'><<</a> ";
+        echo '<a href="?page=' . ($page - 1) . '"><<</a> ';
     }
     $pageCount = count($pages);
     for ($i = 1; $i <= $pageCount; $i++) {
@@ -53,11 +53,11 @@ function pager($pages, $page)
         }
     }
     if ($page == $pageCount) {
-        echo ">> ";
+        echo '>> ';
     } else {
-        echo "<a href='?page=" . ($page + 1) . "'>>></a> ";
+        echo '<a href="?page=' . ($page + 1) . '">>></a> ';
     }
-    echo "</div>";  
+    echo '</div>';
 }
 
 if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
@@ -75,7 +75,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
         $height = IMAGE_MAX_HEIGHT;
         header('Content-Disposition: inline; filename = "scaled_' . $file . '"');
     }
-    header("Content-Type: image/jpeg"); 
+    header('Content-Type: image/jpeg'); 
     if (file_exists($target) 
         && ($stat = stat($target)) !== FALSE
         && $stat['mtime'] > filemtime($file)) {
@@ -117,8 +117,8 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     <body>
     <div id="cursor_hint">Use cursors to navigate!</div>
     <?php
-    $files = glob("{*.jpg,*.JPG}", GLOB_BRACE);
-    $nextlink = "?";
+    $files = glob('{*.jpg,*.JPG}', GLOB_BRACE);
+    $nextlink = '?';
     $fileCount = count($files);
     for ($i = 0; $i < $fileCount; $i++) {
         if ($files[$i] == $_GET['show']) {
@@ -141,25 +141,25 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     $prevpic = $prevpics[count($prevpics) - 1];
     $nextpic = $nextpics[0];
 
-    echo "<script>
-        \$(document).on(\"keydown\", function(event) {
+    echo '<script>
+        $(document).on("keydown", function(event) {
             switch( event.keyCode ) {
-                case \$.ui.keyCode.LEFT:
-                    if ('$prevpic' != '') {
-                        window.location = '?show=$prevpic'
+                case $.ui.keyCode.LEFT:
+                    if ("$prevpic" != "") {
+                        window.location = "?show=$prevpic"
                     }
                     break;
-                case \$.ui.keyCode.RIGHT:
-                    if ('$nextpic' != '') {
-                        window.location = '?show=$nextpic'
+                case $.ui.keyCode.RIGHT:
+                    if ("$nextpic" != "") {
+                        window.location = "?show=$nextpic"
                     }
                     break;
             }
         });
-    </script>";
+    </script>';
 
     $exif = exif_read_data($_GET['show']);
-    echo "<p style='text-align:center'>";
+    echo '<p style="text-align:center">';
     foreach ($prevpics as $pic) {
         echo "<a href='?show=$pic'><img src='?thumb=$pic' style='margin-left: 5px; margin-right: 5px;'></a>";
     }
