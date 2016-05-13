@@ -60,6 +60,23 @@ function pager($pages, $page)
     echo "</div>";  
 }
 
+function gps($coordinate, $hemisphere) 
+{
+    for ($i = 0; $i < 3; $i++) {
+        $part = explode('/', $coordinate[$i]);
+        if (count($part) == 1) {
+            $coordinate[$i] = $part[0];
+        } else if (count($part) == 2) {
+            $coordinate[$i] = floatval($part[0])/floatval($part[1]);
+        } else {
+            $coordinate[$i] = 0;
+        }
+    }
+    list($degrees, $minutes, $seconds) = $coordinate;
+    $sign = ($hemisphere == 'W' || $hemisphere == 'S') ? -1 : 1;
+    return $sign * ($degrees + $minutes/60 + $seconds/3600);
+}
+
 if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     || isset($_GET['scaled']) && strpos($_GET['scaled'], '..') === FALSE
 ) {
@@ -173,6 +190,10 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     echo $exif['DateTime'];
     echo "<br/>";
     echo "<a href='".$_GET['show']."'>show original</a>";
+    echo "<br />";
+    $latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
+    $longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
+    echo '<a href="https://www.google.de/maps/place/'.$latitude.', '.$longitude.'">show on Google Maps</a>';
     echo "</p>";
     ?>
     </body>
