@@ -19,6 +19,11 @@ chmod g+rwx .thumbs
 
 Not simply access your site (e.g. www.example.com/pics). The thumbnails will be generated on your first visit. They will also be regenerated if the source files change.
 
+Google Maps embedding
+=======
+Google Maps embedding is done if the file contains EXIF information of the location where the foto has been taken. You also need to rename "config.php.sample" to "config.php" and set your API-Key accordingly.
+
+
 PHP_CodeSniffer
 =======
 Run with: 

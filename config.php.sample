@@ -1,0 +1,5 @@
+<?php
+
+$google_maps_api_key = 'foobar123';
+
+?>
