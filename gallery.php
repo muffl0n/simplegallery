@@ -1,5 +1,7 @@
 <?php
 
+include('config.php');
+
 /**
  * Simple gallery for PHP.
  *
@@ -62,6 +64,9 @@ function pager($pages, $page)
 
 function gps($coordinate, $hemisphere) 
 {
+    if ($coordinate == NULL || $hemisphere == NULL) {
+        return NULL;
+    }
     for ($i = 0; $i < 3; $i++) {
         $part = explode('/', $coordinate[$i]);
         if (count($part) == 1) {
@@ -191,9 +196,18 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     echo "<br/>";
     echo "<a href='".$_GET['show']."'>show original</a>";
     echo "<br />";
-    $latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
-    $longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
-    echo '<a href="https://www.google.de/maps/place/'.$latitude.', '.$longitude.'">show on Google Maps</a>';
+    if (isset($google_maps_api_key)) {
+    	$latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
+    	$longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
+        if ($latitude != NULL && $longitude != NULL) {
+            echo '<iframe
+                width="600"
+                height="450"
+                frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key='.$google_maps_api_key.'&q='.$latitude.', '.$longitude.'" allowfullscreen>
+                </iframe>';
+        }
+    }
     echo "</p>";
     ?>
     </body>
