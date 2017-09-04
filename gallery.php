@@ -40,7 +40,7 @@ function autoRotateImage($image)
 
 function pager($pages, $page)
 {
-    echo "<div style='text-align: center;'>";   
+    echo "<div id='pager'>";   
     if ($page == 1) {
         echo "<< ";
     } else {
@@ -228,6 +228,16 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
             margin-right: auto;
             padding: 2px;
         }
+        #pager {
+            text-align: center; 
+            clear: left;
+        }
+        div.thumbnail {
+            padding: 10px; 
+            width: <?= THUMB_MAX_WIDTH ?>; 
+            height: <?= THUMB_MAX_HEIGHT ?>; 
+            float: left;
+        }
     </style>
     </head>
     <body>
@@ -255,13 +265,25 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
         });
     </script>";
 
+    $day = null;
+    echo "<div style='clear:left'>\n";
     foreach ($pages[$page - 1] as $file) {
         $rel = "";
         if (file_exists($file.".tags")) {
             $rel = file_get_contents($file.".tags");
         }
-        echo "<a href='?show=$file'><img src='?thumb=$file' rel='$rel' border='0' style='margin: 5px;'/></a>\n";
+        $exif = exif_read_data($file);
+        if (isset($exif['DateTime'])) {
+            $d = DateTime::createFromFormat('Y:m:d H:i:s', $exif['DateTime']);
+            $day_file = $d->format('d.m.Y');
+        }
+        if ($day == null || $day_file != $day) {
+            echo "</div><div style='clear:left'><h1>" . $day_file . "</h1>";
+            $day = $day_file;
+        }
+        echo "<div class='thumbnail'><a href='?show=$file'><img src='?thumb=$file' rel='$rel'/></a></div>\n";
     }
+    echo "<div>\n";
 
     pager($pages, $page);
 
