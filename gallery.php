@@ -197,15 +197,17 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     echo "<a href='".$_GET['show']."'>show original</a>";
     echo "<br />";
     if (isset($google_maps_api_key)) {
-    	$latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
-    	$longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
+        $latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
+        $longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
         if ($latitude != NULL && $longitude != NULL) {
+            $src = "https://www.google.com/maps/embed/v1/place?key=".
+                    $google_maps_api_key."&q=".$latitude.", ".$longitude;
             echo '<iframe
                 width="600"
                 height="450"
                 frameborder="0" style="border:0"
-                src="https://www.google.com/maps/embed/v1/place?key='.$google_maps_api_key.'&q='.$latitude.', '.$longitude.'" allowfullscreen>
-                </iframe>';
+                src="'.$src.'"
+                allowfullscreen/>';
         }
     }
     echo "</p>";
@@ -234,8 +236,8 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
         }
         div.thumbnail {
             padding: 10px; 
-            width: <?= THUMB_MAX_WIDTH ?>; 
-            height: <?= THUMB_MAX_HEIGHT ?>; 
+            width: <?php echo THUMB_MAX_WIDTH; ?>; 
+            height: <?php echo THUMB_MAX_HEIGHT; ?>; 
             float: left;
         }
     </style>
@@ -265,7 +267,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
         });
     </script>";
 
-    $day = null;
+    $day = NULL;
     echo "<div style='clear:left'>\n";
     foreach ($pages[$page - 1] as $file) {
         $rel = "";
@@ -277,7 +279,7 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
             $d = DateTime::createFromFormat('Y:m:d H:i:s', $exif['DateTime']);
             $day_file = $d->format('d.m.Y');
         }
-        if ($day == null || $day_file != $day) {
+        if ($day == NULL || $day_file != $day) {
             echo "</div><div style='clear:left'><h1>" . $day_file . "</h1>";
             $day = $day_file;
         }
