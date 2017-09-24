@@ -9,15 +9,6 @@ include('config.php');
  * @link     https://github.com/muffl0n/simplegallery
  */
 
-define('IMAGES_PER_PAGE', 40);
-define('THUMBS', 3);
-
-define('THUMB_MAX_WIDTH', 160);
-define('THUMB_MAX_HEIGHT', 160);
-
-define('IMAGE_MAX_WIDTH', 1024);
-define('IMAGE_MAX_HEIGHT', 768);
-
 function autoRotateImage($image)
 {
     $orientation = $image->getImageOrientation(); 
@@ -196,12 +187,12 @@ if (isset($_GET['thumb']) && strpos($_GET['thumb'], '..') === FALSE
     echo "<br/>";
     echo "<a href='".$_GET['show']."'>show original</a>";
     echo "<br />";
-    if (isset($google_maps_api_key)) {
+    if (defined('GOOGLE_MAPS_API_KEY')) {
         $latitude = gps($exif["GPSLatitude"], $exif['GPSLatitudeRef']);
         $longitude = gps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
         if ($latitude != NULL && $longitude != NULL) {
             $src = "https://www.google.com/maps/embed/v1/place?key=".
-                    $google_maps_api_key."&q=".$latitude.", ".$longitude;
+                    GOOGLE_MAPS_API_KEY."&q=".$latitude.", ".$longitude;
             echo '<iframe
                 width="600"
                 height="450"

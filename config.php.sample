@@ -1,5 +1,14 @@
 <?php
 
-$google_maps_api_key = 'foobar123';
+define('IMAGES_PER_PAGE', 40);
+define('THUMBS', 3);
+
+define('THUMB_MAX_WIDTH', 160);
+define('THUMB_MAX_HEIGHT', 160);
+
+define('IMAGE_MAX_WIDTH', 1024);
+define('IMAGE_MAX_HEIGHT', 768);
+
+define('GOOGLE_MAPS_API_KEY', 'foobar123');
 
 ?>
